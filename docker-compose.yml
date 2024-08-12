@@ -3,8 +3,6 @@ services:
   client:
     build: 
      context: ./client 
-     args:
-      - SERVER_URL=http://server:4000/show
     working_dir: /client
     environment:
       - SERVER_URL=http://server:4000/show
