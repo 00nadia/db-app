@@ -1,6 +1,8 @@
-export const load = async (serverLoadEvent)=>{
-    const {fetch}=serverLoadEvent;
-    const response = await fetch('http://host.docker.internal:4000/show');
+import { SERVER_URL } from '$env/static/private';
+
+export const load = async ({fetch})=>{
+    console.log(SERVER_URL)
+    const response = await fetch(SERVER_URL);
     const dataTest = await response.json();
     return{
         dataTest: dataTest,

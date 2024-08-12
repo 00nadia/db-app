@@ -6,6 +6,8 @@ services:
      args:
       - SERVER_URL=http://server:4000/show
     working_dir: /client
+    environment:
+      - SERVER_URL=http://server:4000/show
     volumes:
       - ./client/src:/client/src
       - ./client/.svelte-kit:/client/.svelte-kit
