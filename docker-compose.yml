@@ -16,6 +16,8 @@ services:
     command: npm run dev
 
   server:
+    depends_on:
+      - db
     build: 
      context: ./server
     working_dir: /server
@@ -24,7 +26,20 @@ services:
     environment:
       - LOG_LEVEL=debug
       - HTTP_PORT=4000
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U postgres -d' testdb"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
     ports: 
       - 4000:4000
     command: go run main.go
 
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+    - "5432:5432"
+    volumes:
+    - ./postgres:/var/lib/postgresql/data
