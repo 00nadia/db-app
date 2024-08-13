@@ -3,20 +3,15 @@ import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ()=>{
-    const response = await fetch(env.SERVER_URL);
-    if (response.status === 200){
-        const dataTest = await response.json();
-        if (dataTest.includes){
-            return{
-                dataTest: dataTest,
-            }
-        }else{
-                throw error(response.status ,response.statusText);
+    try{
+        const response = await fetch(env.SERVER_URL);
+        if (!response.ok){
+            throw error(response.status ,response.statusText);
         }
+        const data = await response.json();
+        return {dataTest: data};
+    } catch (error){
+        throw error(500, error.message);
     }
-    else{
-        throw error(response.status ,response.statusText);
-    }
-    
 
 };
